@@ -7,7 +7,6 @@ import {
   onSnapshot,
   where,
 } from "firebase/firestore";
-import { async } from "@firebase/util";
 
 export const useFetchDocuments = (docCollection, search = null, uid = null) => {
   const [documents, setDocuments] = useState(null);
@@ -32,7 +31,7 @@ export const useFetchDocuments = (docCollection, search = null, uid = null) => {
 
         await onSnapshot(q, (querySnapshot) => {
           setDocuments(
-            query.docs.map((doc) => ({
+            querySnapshot.docs.map((doc) => ({
               id: doc.id,
               ...doc.data(),
             }))
