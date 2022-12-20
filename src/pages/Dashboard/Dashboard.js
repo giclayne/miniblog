@@ -5,14 +5,14 @@ import styles from "./Dashboard.module.css";
 
 //hooks
 import { useAuthValue } from "../../context/AuthContext";
-import { useFetchDocument } from "../../hooks/useFetchDocument";
+import { useFetchDocument, useFetchDocuments } from "../../hooks/useFetchDocument";
 
 const Dashboard = () => {
   const { user } = useAuthValue();
   const uid = user.uid;
 
   //posts do usuario
-  const posts = [];
+  const {documents : posts, loading} = useFetchDocuments("posts", null, uid)
   return (
     <div>
       <h2>Dashboard</h2>
@@ -29,6 +29,7 @@ const Dashboard = () => {
           <p>Tem posts</p>
         </div>
       )}
+      {posts && posts.map((post) => <h3>{post.title}</h3>)}
     </div>
   );
 };
