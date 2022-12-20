@@ -9,6 +9,7 @@ import {
   useFetchDocument,
   useFetchDocuments,
 } from "../../hooks/useFetchDocument";
+import { useDeleteDocument } from "../../hooks/useDeleteDocument";
 
 const Dashboard = () => {
   const { user } = useAuthValue();
@@ -16,9 +17,8 @@ const Dashboard = () => {
 
   //posts do usuario
   const { documents: posts, loading } = useFetchDocuments("posts", null, uid);
-  const deleteDocument = (id) =>{
+  const { deleteDocument } = useDeleteDocument("posts");
 
-  }
   return (
     <div className={styles.dashboard}>
       <h2>Dashboard</h2>
@@ -36,14 +36,29 @@ const Dashboard = () => {
             <span>Título</span>
             <span>Açoes</span>
           </div>
-          {posts && posts.map((post) => <div key={post.id} className={styles.post_row}>
-            <p>{post.title}</p>
-            <div>
-              <Link to={`/posts/${post.id}`} className="btn btn-outline">Ver</Link>
-              <Link to={`/posts/edit${post.id}`} className="btn btn-outline">Editar</Link>
-              <button onClick={()=> deleteDocument(post.id)} className="btn btn-outline btn-danger">Excluir</button>
-            </div>
-          </div>)}
+          {posts &&
+            posts.map((post) => (
+              <div key={post.id} className={styles.post_row}>
+                <p>{post.title}</p>
+                <div>
+                  <Link to={`/posts/${post.id}`} className="btn btn-outline">
+                    Ver
+                  </Link>
+                  <Link
+                    to={`/posts/edit${post.id}`}
+                    className="btn btn-outline"
+                  >
+                    Editar
+                  </Link>
+                  <button
+                    onClick={() => deleteDocument(post.id)}
+                    className="btn btn-outline btn-danger"
+                  >
+                    Excluir
+                  </button>
+                </div>
+              </div>
+            ))}
         </>
       )}
     </div>
